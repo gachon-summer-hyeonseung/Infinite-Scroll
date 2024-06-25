@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        if (scrollRect.verticalNormalizedPosition < 0.04f) AddNextUsers();
+        if (scrollRect.verticalNormalizedPosition < 0.01f) AddNextUsers();
     }
 
     void AddNextUsers()
