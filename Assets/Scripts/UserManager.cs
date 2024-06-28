@@ -38,6 +38,10 @@ public class UserManager : MonoBehaviour
     [Header("User Job Data")]
     [SerializeField] private string[] jobs = new string[] { "프로그래밍", "기획", "QA" };
 
+    List<UserData> cachedUserDataList;
+
+    public UserData selectedUserData { get; private set; }
+
     public static UserManager Instance { get; private set; }
 
     private void Awake()
@@ -59,8 +63,15 @@ public class UserManager : MonoBehaviour
     //     CreateUserData();
     // }
 
+    public void RefreshData()
+    {
+        cachedUserDataList = null;
+    }
+
     public List<UserData> GetUserData()
     {
+        if (cachedUserDataList != null) return cachedUserDataList;
+
         List<UserData> userDatas = new();
 
         string filePath = Path.Combine(Application.persistentDataPath, "UserData.csv");
@@ -87,7 +98,13 @@ public class UserManager : MonoBehaviour
             userDatas.Add(userData);
         }
 
+        cachedUserDataList = userDatas;
         return userDatas;
+    }
+
+    public void SetUserData(UserData userData)
+    {
+        selectedUserData = userData;
     }
 
     public void CreateUserData()

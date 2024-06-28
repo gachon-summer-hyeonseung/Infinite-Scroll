@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Scroll View")]
     [SerializeField] private RectTransform content;
     [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private RectTransform buttonPrefab;
 
+    [Header("Popup")]
+    [SerializeField] private GameObject popup;
     [SerializeField] private TextMeshProUGUI popupText;
 
+    [Header("Search")]
     [SerializeField] private TMP_InputField searchInput;
     [SerializeField] private TMP_Dropdown filterDropdown;
     [SerializeField] private TMP_Dropdown orderDropdown;
@@ -29,12 +34,29 @@ public class UIManager : MonoBehaviour
         userDataList = UserManager.Instance.GetUserData();
         currentDataList = userDataList;
 
-        RunQuery();
+        Init();
     }
 
     void Update()
     {
         if (isAddable && scrollRect.verticalNormalizedPosition < 0.01f) AddNextUsers();
+    }
+
+    void Init()
+    {
+        searchInput.text = ScrollData.searchQuery;
+        filterDropdown.value = ScrollData.filter;
+        orderDropdown.value = ScrollData.order;
+
+        RunQuery();
+
+        for (int i = 0; i < ScrollData.itemCount; i++)
+        {
+            UserData userData = currentDataList[i];
+            InsertUser(userData);
+        }
+
+        scrollRect.verticalNormalizedPosition = ScrollData.scrollValue;
     }
 
     public void RunQuery()
@@ -104,15 +126,43 @@ public class UIManager : MonoBehaviour
         for (int i = count; i < count + itemCount; i++)
         {
             UserData userData = currentDataList[i];
-            RectTransform userObject = Instantiate(buttonPrefab, content);
-            userObject.GetComponentInChildren<TextMeshProUGUI>().text = userData.name;
-            userObject.GetComponent<Button>().onClick.AddListener(() => UpdatePopup(userData));
+            InsertUser(userData);
         }
     }
 
-    void UpdatePopup(UserData data)
+    void InsertUser(UserData userData)
     {
-        string text = $"이름 : {data.name}\n나이 : {data.age}\n성별 : {data.gender}\n취미 : {data.hobby}\n직업 : {data.job}";
-        popupText.text = text;
+        RectTransform userObject = Instantiate(buttonPrefab, content);
+        userObject.GetComponentInChildren<TextMeshProUGUI>().text = userData.name;
+        userObject.GetComponent<Button>().onClick.AddListener(() => OpenPopup(userData));
     }
+
+    void OpenPopup(UserData userData)
+    {
+        SaveData();
+        UserManager.Instance.SetUserData(userData);
+        SceneManager.LoadScene("PopupScene");
+        // popup.SetActive(true);
+        // UpdatePopup(userData);
+    }
+
+    void SaveData()
+    {
+        ScrollData.searchQuery = searchInput.text;
+        ScrollData.filter = filterDropdown.value;
+        ScrollData.order = orderDropdown.value;
+        ScrollData.itemCount = content.childCount;
+        ScrollData.scrollValue = scrollRect.verticalNormalizedPosition;
+    }
+
+    // void UpdatePopup(UserData data)
+    // {
+    //     string text = $"이름 : {data.name}\n나이 : {data.age}\n성별 : {data.gender}\n취미 : {data.hobby}\n직업 : {data.job}";
+    //     popupText.text = text;
+    // }
+
+    // public void ClosePopup()
+    // {
+    //     popup.SetActive(false);
+    // }
 }
