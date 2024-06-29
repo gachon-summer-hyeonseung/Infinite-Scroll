@@ -58,10 +58,20 @@ public class UserManager : MonoBehaviour
         }
     }
 
-    // private void Start()
-    // {
-    //     CreateUserData();
-    // }
+    public string[] GetGenders()
+    {
+        return genders;
+    }
+
+    public string[] GetHobbies()
+    {
+        return hobbies;
+    }
+
+    public string[] GetJobs()
+    {
+        return jobs;
+    }
 
     public void RefreshData()
     {
