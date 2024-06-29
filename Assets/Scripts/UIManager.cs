@@ -210,7 +210,6 @@ public class UIManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        scrollRect.verticalNormalizedPosition = 1f;
         isAddable = true;
     }
 
