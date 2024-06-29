@@ -102,6 +102,8 @@ public class UIManager : MonoBehaviour
         scrollRect.verticalNormalizedPosition = ScrollData.scrollValue;
     }
 
+    #region Filter
+
     void InitFilter()
     {
         CreateFilterOptions();
@@ -163,6 +165,9 @@ public class UIManager : MonoBehaviour
         filterDropdown2.AddOptions(optionNames);
     }
 
+    #endregion
+
+    #region Query
     public void RunQuery()
     {
         IEnumerable<UserData> query = userDataList.AsEnumerable();
@@ -212,6 +217,8 @@ public class UIManager : MonoBehaviour
         }
         isAddable = true;
     }
+
+    #endregion
 
     void AddNextUsers()
     {
