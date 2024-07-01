@@ -225,7 +225,7 @@ public class UIManager : MonoBehaviour
         int count = content.childCount;
         if (count >= currentDataList.Count) return;
 
-        int itemCount = count + 20 > currentDataList.Count ? currentDataList.Count - count : 20;
+        int itemCount = count + 10 > currentDataList.Count ? currentDataList.Count - count : 20;
 
         for (int i = count; i < count + itemCount; i++)
         {
