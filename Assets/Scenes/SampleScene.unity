@@ -4327,7 +4327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb138ac20a0349358ca3beb8a573ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userCount: 500
+  userCount: 10000
   lastNames:
   - "\uAE40"
   - "\uC774"
