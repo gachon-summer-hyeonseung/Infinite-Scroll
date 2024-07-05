@@ -84,7 +84,7 @@ public class UserManager : MonoBehaviour
 
         List<UserData> userDatas = new();
 
-        string filePath = Path.Combine(Application.persistentDataPath, "UserData.csv");
+        string filePath = Path.Combine(Application.streamingAssetsPath, "UserData.csv");
         if (!File.Exists(filePath))
         {
             return userDatas;
@@ -143,7 +143,7 @@ public class UserManager : MonoBehaviour
 
     private void SaveToCSV(List<UserData> userDatas)
     {
-        string filePath = Path.Combine(Application.persistentDataPath, "UserData.csv");
+        string filePath = Path.Combine(Application.streamingAssetsPath, "UserData.csv");
         Debug.Log(filePath);
 
         StringBuilder sb = new("이름,나이,성별,취미,직업\n");
